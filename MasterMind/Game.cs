@@ -2,6 +2,7 @@
 using System.Runtime.CompilerServices;
 using System.Text;
 using MasterMind.Constants;
+using MasterMind.DisplayBehaviors;
 using MasterMind.Exceptions;
 using MasterMind.Responses;
 
@@ -14,8 +15,11 @@ namespace MasterMind
     /// </summary>
     public class Game
     {
-        public Game()
+        private readonly IDisplayBehavior _display;
+
+        public Game(IDisplayBehavior display)
         {
+            _display = display ?? throw new ArgumentNullException(nameof(display));
             Initialize();
         }
 
@@ -27,15 +31,15 @@ namespace MasterMind
         /// </summary>
         public void GamePlay()
         {
-            Console.WriteLine(Messages.WelcomeMessage);
-            Console.WriteLine(Messages.Line);
-            Console.WriteLine(Messages.Rules, Constant.AnswerLength);
+            _display.DisplayLine(Messages.WelcomeMessage);
+            _display.DisplayLine(Messages.Line);
+            _display.DisplayLine(string.Format(Messages.Rules, Constant.AnswerLength));
 
             while (true)
             {
                 try
                 {
-                    Console.WriteLine(Messages.EnterNumber, attemptsLeft);
+                    _display.DisplayLine(string.Format(Messages.EnterNumber, attemptsLeft));
                     var input = Console.ReadLine();
 
                     input.InputNotNullOrWhiteSpace();
@@ -51,29 +55,29 @@ namespace MasterMind
 
                     var response = guess.Response;
 
-                    Console.WriteLine(response.ResponseMessage);
+                    _display.DisplayLine(response.ResponseMessage);
 
                     if (response.ResponseCode == ResponseCode.Success)
                     {
-                        Console.WriteLine(Messages.SuccessRestart);
+                        _display.DisplayLine(Messages.SuccessRestart);
                         Restart();
                         return;
                     }
 
                     if (attemptsLeft <= 0)
                     {
-                        Console.WriteLine(Messages.AttemptsOver);
+                        _display.DisplayLine(Messages.AttemptsOver);
                         Restart();
                         return;
                     }
                 }
                 catch (GameException ex)
                 {
-                    Console.WriteLine(ex.Message);
+                    _display.DisplayLine(ex.Message);
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex);
+                    _display.DisplayLine(ex.ToString());
                     throw;
                 }
             }
@@ -112,7 +116,7 @@ namespace MasterMind
         {
             if (input.Equals("Q", StringComparison.OrdinalIgnoreCase))
             {
-                Console.WriteLine(Messages.Quit);
+                _display.DisplayLine(Messages.Quit);
                 return true;
             }
 

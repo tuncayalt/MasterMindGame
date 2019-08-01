@@ -1,4 +1,5 @@
 ﻿using MasterMind;
+using MasterMind.DisplayBehaviors;
 using MasterMind.Exceptions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -12,7 +13,7 @@ namespace MasterMindTests
         [TestInitialize]
         public void Setup()
         {
-            _game = new Game();
+            _game = new Game(new DisplayOnConsole());
         }
 
         [TestMethod]
