@@ -1,22 +1,29 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 using MasterMind.Constants;
+using MasterMind.Exceptions;
 using MasterMind.Responses;
 
 namespace MasterMind
 {
     internal class Guess
     {
-        internal Guess(string input, string answerString, int answerLength)
+        internal Guess(string input, string answerString)
         {
             _answerString = answerString;
-            Tools.CheckInput(input, answerLength);
+            CheckInput(input);
             Response = Evaluate(input);
         }
 
         private readonly string _answerString;
         internal Response Response { get; set; }
+
+        private static readonly HashSet<char> ValidNumbers = new HashSet<char>
+        {
+            '1', '2', '3', '4', '5', '6'
+        };
 
         private Response Evaluate(string guess)
         {
@@ -69,6 +76,28 @@ namespace MasterMind
                 ResponseCode = ResponseCode.GuessError,
                 ResponseMessage = message.ToString()
             };
+        }
+
+        private static void CheckInput(string guess)
+        {
+            Tools.CheckInteger(guess);
+            CheckFormat(guess);
+        }
+
+        private static void CheckFormat(string guess)
+        {
+            if (guess.Length != Constant.AnswerLength)
+            {
+                throw new GameException(string.Format(Messages.NumberOfDigitsError, Constant.AnswerLength));
+            }
+
+            foreach (var ch in guess)
+            {
+                if (!ValidNumbers.Contains(ch))
+                {
+                    throw new GameException(Messages.NotBetween1And6);
+                }
+            }
         }
     }
 }

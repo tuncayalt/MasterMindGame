@@ -36,7 +36,7 @@ namespace MasterMindTests
             // Act
             try
             {
-                Tools.InputNotNullOrWhiteSpace(string.Empty);
+                string.Empty.InputNotNullOrWhiteSpace();
             }
             catch (GameException exception)
             {
@@ -56,7 +56,7 @@ namespace MasterMindTests
             // Act
             try
             {
-                Tools.InputNotNullOrWhiteSpace("a");
+                "a".InputNotNullOrWhiteSpace();
             }
             catch (GameException exception)
             {
@@ -68,7 +68,7 @@ namespace MasterMindTests
         }
 
         [TestMethod]
-        public void Tools_CheckInput_ArgumentNull_ThrowsGameException()
+        public void Tools_CheckInteger_ArgumentNull_ThrowsGameException()
         {
             // Arrange
             var gameExceptionMessage = string.Empty;
@@ -76,7 +76,7 @@ namespace MasterMindTests
             // Act
             try
             {
-                Tools.CheckInput(null, 4);
+                Tools.CheckInteger(null);
             }
             catch (GameException exception)
             {
@@ -88,7 +88,7 @@ namespace MasterMindTests
         }
 
         [TestMethod]
-        public void Tools_CheckInput_ArgumentEmpty_ThrowsGameException()
+        public void Tools_CheckInteger_ArgumentEmpty_ThrowsGameException()
         {
             // Arrange
             var gameExceptionMessage = string.Empty;
@@ -96,7 +96,7 @@ namespace MasterMindTests
             // Act
             try
             {
-                Tools.CheckInput(string.Empty, 4);
+                Tools.CheckInteger(string.Empty);
             }
             catch (GameException exception)
             {
@@ -108,7 +108,7 @@ namespace MasterMindTests
         }
 
         [TestMethod]
-        public void Tools_CheckInput_ArgumentNotDigit_ThrowsGameException()
+        public void Tools_CheckInteger_ArgumentNotDigit_ThrowsGameException()
         {
             // Arrange
             var gameExceptionMessage = string.Empty;
@@ -116,7 +116,7 @@ namespace MasterMindTests
             // Act
             try
             {
-                Tools.CheckInput("a", 4);
+                Tools.CheckInteger("a");
             }
             catch (GameException exception)
             {
@@ -128,7 +128,7 @@ namespace MasterMindTests
         }
 
         [TestMethod]
-        public void Tools_CheckInput_ArgumentMoreThan4Digits_ThrowsGameException()
+        public void Tools_CheckInteger_ArgumentDigitsBetween1And6_NormalFlow()
         {
             // Arrange
             var gameExceptionMessage = string.Empty;
@@ -136,67 +136,7 @@ namespace MasterMindTests
             // Act
             try
             {
-                Tools.CheckInput("12345", 4);
-            }
-            catch (GameException exception)
-            {
-                gameExceptionMessage = exception.Message;
-            }
-
-            // Assert
-            Assert.AreEqual("The number is not 4 digits.", gameExceptionMessage);
-        }
-
-        [TestMethod]
-        public void Tools_CheckInput_ArgumentLessThan4Digits_ThrowsGameException()
-        {
-            // Arrange
-            var gameExceptionMessage = string.Empty;
-
-            // Act
-            try
-            {
-                Tools.CheckInput("125", 4);
-            }
-            catch (GameException exception)
-            {
-                gameExceptionMessage = exception.Message;
-            }
-
-            // Assert
-            Assert.AreEqual("The number is not 4 digits.", gameExceptionMessage);
-        }
-
-        [TestMethod]
-        public void Tools_CheckInput_ArgumentNotBetween1And6_ThrowsGameException()
-        {
-            // Arrange
-            var gameExceptionMessage = string.Empty;
-
-            // Act
-            try
-            {
-                Tools.CheckInput("1273" ,4);
-            }
-            catch (GameException exception)
-            {
-                gameExceptionMessage = exception.Message;
-            }
-
-            // Assert
-            Assert.AreEqual("The digits must be between 1 and 6.", gameExceptionMessage);
-        }
-
-        [TestMethod]
-        public void Tools_CheckInput_ArgumentDigitsBetween1And6_NormalFlow()
-        {
-            // Arrange
-            var gameExceptionMessage = string.Empty;
-
-            // Act
-            try
-            {
-                Tools.CheckInput("1263", 4);
+                Tools.CheckInteger("1263");
             }
             catch (GameException exception)
             {

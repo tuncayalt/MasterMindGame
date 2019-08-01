@@ -19,8 +19,6 @@ namespace MasterMind
             Initialize();
         }
 
-        private const int InitialAttempts = 10;
-        private const int AnswerLength = 4;
         private int attemptsLeft;
         internal string answerString;
 
@@ -31,7 +29,7 @@ namespace MasterMind
         {
             Console.WriteLine(Messages.WelcomeMessage);
             Console.WriteLine(Messages.Line);
-            Console.WriteLine(Messages.Rules, AnswerLength);
+            Console.WriteLine(Messages.Rules, Constant.AnswerLength);
 
             while (true)
             {
@@ -40,14 +38,14 @@ namespace MasterMind
                     Console.WriteLine(Messages.EnterNumber, attemptsLeft);
                     var input = Console.ReadLine();
 
-                    Tools.InputNotNullOrWhiteSpace(input);
+                    input.InputNotNullOrWhiteSpace();
 
                     if (CheckQuit(input))
                     {
                         return;
                     }
 
-                    var guess = new Guess(input, answerString, AnswerLength);
+                    var guess = new Guess(input, answerString);
 
                     attemptsLeft--;
 
@@ -83,7 +81,7 @@ namespace MasterMind
 
         private void Initialize()
         {
-            attemptsLeft = InitialAttempts;
+            attemptsLeft = Constant.InitialAttempts;
             SetAnswer();
         }
 
@@ -92,7 +90,7 @@ namespace MasterMind
             var random = new Random();
             var answerBuilder = new StringBuilder();
 
-            for (var index = 0; index < AnswerLength; index++)
+            for (var index = 0; index < Constant.AnswerLength; index++)
             {
                 answerBuilder.Append(random.Next(1, 7));
             }
