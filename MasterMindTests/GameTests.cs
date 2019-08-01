@@ -31,7 +31,7 @@ namespace MasterMindTests
             // Act
             try
             {
-                _game.Guess(null);
+                var guess = new Guess(null, "1234", 4);
             }
             catch (GameException exception)
             {
@@ -51,7 +51,7 @@ namespace MasterMindTests
             // Act
             try
             {
-                _game.Guess(string.Empty);
+                var guess = new Guess(string.Empty, "1234", 4);
             }
             catch (GameException exception)
             {
@@ -71,7 +71,7 @@ namespace MasterMindTests
             // Act
             try
             {
-                _game.Guess("a");
+                var guess = new Guess("a", "1234", 4);
             }
             catch (GameException exception)
             {
@@ -91,7 +91,7 @@ namespace MasterMindTests
             // Act
             try
             {
-                _game.Guess("12345");
+                var guess = new Guess("12345", "1234", 4);
             }
             catch (GameException exception)
             {
@@ -111,7 +111,7 @@ namespace MasterMindTests
             // Act
             try
             {
-                _game.Guess("123");
+                var guess = new Guess("123", "1234", 4);
             }
             catch (GameException exception)
             {
@@ -131,7 +131,7 @@ namespace MasterMindTests
             // Act
             try
             {
-                _game.Guess("1273");
+                var guess = new Guess("1273", "1234", 4);
             }
             catch (GameException exception)
             {
@@ -149,11 +149,10 @@ namespace MasterMindTests
             _game.answerString = "1212";
 
             // Act
-            var actual = _game.Guess("3434");
-            
+            var actual = new Guess("3434", _game.answerString, 4);
 
             // Assert
-            Assert.AreEqual(string.Empty, actual.ResponseMessage);
+            Assert.AreEqual(string.Empty, actual.Response.ResponseMessage);
         }
 
         [TestMethod]
@@ -163,11 +162,11 @@ namespace MasterMindTests
             _game.answerString = "1212";
 
             // Act
-            var actual = _game.Guess("3431");
+            var actual = new Guess("3431", _game.answerString, 4);
 
 
             // Assert
-            Assert.AreEqual("-", actual.ResponseMessage);
+            Assert.AreEqual("-", actual.Response.ResponseMessage);
         }
 
         [TestMethod]
@@ -177,11 +176,10 @@ namespace MasterMindTests
             _game.answerString = "1212";
 
             // Act
-            var actual = _game.Guess("4235");
-
+            var actual = new Guess("4235", _game.answerString, 4);
 
             // Assert
-            Assert.AreEqual("+", actual.ResponseMessage);
+            Assert.AreEqual("+", actual.Response.ResponseMessage);
         }
 
         [TestMethod]
@@ -191,11 +189,10 @@ namespace MasterMindTests
             _game.answerString = "1212";
 
             // Act
-            var actual = _game.Guess("1135");
-
+            var actual = new Guess("1135", _game.answerString, 4);
 
             // Assert
-            Assert.AreEqual("+-", actual.ResponseMessage);
+            Assert.AreEqual("+-", actual.Response.ResponseMessage);
         }
 
         [TestMethod]
@@ -205,11 +202,10 @@ namespace MasterMindTests
             _game.answerString = "1212";
 
             // Act
-            var actual = _game.Guess("2135");
-
+            var actual = new Guess("2135", _game.answerString, 4);
 
             // Assert
-            Assert.AreEqual("--", actual.ResponseMessage);
+            Assert.AreEqual("--", actual.Response.ResponseMessage);
         }
 
         [TestMethod]
@@ -219,11 +215,10 @@ namespace MasterMindTests
             _game.answerString = "1212";
 
             // Act
-            var actual = _game.Guess("3512");
-
+            var actual = new Guess("3512", _game.answerString, 4);
 
             // Assert
-            Assert.AreEqual("++", actual.ResponseMessage);
+            Assert.AreEqual("++", actual.Response.ResponseMessage);
         }
 
         [TestMethod]
@@ -233,11 +228,10 @@ namespace MasterMindTests
             _game.answerString = "1212";
 
             // Act
-            var actual = _game.Guess("2512");
-
+            var actual = new Guess("2512", _game.answerString, 4);
 
             // Assert
-            Assert.AreEqual("++-", actual.ResponseMessage);
+            Assert.AreEqual("++-", actual.Response.ResponseMessage);
         }
 
         [TestMethod]
@@ -247,11 +241,10 @@ namespace MasterMindTests
             _game.answerString = "1212";
 
             // Act
-            var actual = _game.Guess("2112");
-
+            var actual = new Guess("2112", _game.answerString, 4);
 
             // Assert
-            Assert.AreEqual("++--", actual.ResponseMessage);
+            Assert.AreEqual("++--", actual.Response.ResponseMessage);
         }
 
         [TestMethod]
@@ -261,11 +254,10 @@ namespace MasterMindTests
             _game.answerString = "1561";
 
             // Act
-            var actual = _game.Guess("1661");
-
+            var actual = new Guess("1661", _game.answerString, 4);
 
             // Assert
-            Assert.AreEqual("+++", actual.ResponseMessage);
+            Assert.AreEqual("+++", actual.Response.ResponseMessage);
         }
 
         [TestMethod]
@@ -275,11 +267,10 @@ namespace MasterMindTests
             _game.answerString = "1212";
 
             // Act
-            var actual = _game.Guess("2121");
-
+            var actual = new Guess("2121", _game.answerString, 4);
 
             // Assert
-            Assert.AreEqual("----", actual.ResponseMessage);
+            Assert.AreEqual("----", actual.Response.ResponseMessage);
         }
 
         [TestMethod]
@@ -289,11 +280,10 @@ namespace MasterMindTests
             _game.answerString = "1212";
 
             // Act
-            var actual = _game.Guess("1212");
-
+            var actual = new Guess("1212", _game.answerString, 4);
 
             // Assert
-            Assert.AreEqual("You guessed the number correctly! ", actual.ResponseMessage);
+            Assert.AreEqual("You guessed the number correctly! ", actual.Response.ResponseMessage);
         }
     }
 }

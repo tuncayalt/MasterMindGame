@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using MasterMind.Constants;
@@ -26,7 +25,7 @@ namespace MasterMind
         internal string answerString;
 
         /// <summary>
-        /// Gameplay for MasterMind game
+        /// Game play for MasterMind game
         /// </summary>
         public void GamePlay()
         {
@@ -48,7 +47,11 @@ namespace MasterMind
                         return;
                     }
 
-                    var response = Guess(input);
+                    var guess = new Guess(input, answerString, AnswerLength);
+
+                    attemptsLeft--;
+
+                    var response = guess.Response;
 
                     Console.WriteLine(response.ResponseMessage);
 
@@ -78,20 +81,6 @@ namespace MasterMind
             }
         }
 
-        /// <summary>
-        /// Guess the answer once.
-        /// </summary>
-        /// <param name="guess"></param>
-        /// <returns></returns>
-        public Response Guess(string guess)
-        {
-            Tools.CheckInput(guess, AnswerLength);
-
-            attemptsLeft--;
-
-            return Evaluate(guess);
-        }
-
         private void Initialize()
         {
             attemptsLeft = InitialAttempts;
@@ -109,59 +98,6 @@ namespace MasterMind
             }
 
             answerString = answerBuilder.ToString();
-        }
-
-        private Response Evaluate(string guess)
-        {
-            if (guess.Equals(answerString))
-            {
-                return new Response
-                {
-                    ResponseCode = ResponseCode.Success,
-                    ResponseMessage = Messages.GuessedRight
-                };
-            }
-
-            return EvaluateWrongGuess(guess);
-        }
-
-        private Response EvaluateWrongGuess(string guess)
-        {
-            var tempAnswer = answerString.ToCharArray();
-            var tempGuess = guess.ToCharArray();
-            var message = new StringBuilder();
-            var plusCount = 0;
-            var minusCount = 0;
-
-            for (var index = 0; index < answerString.Length; index++)
-            {
-                if (guess[index].Equals(tempAnswer[index]))
-                {
-                    plusCount++;
-                    tempAnswer[index] = '+';
-                    tempGuess[index] = 'a';
-                }
-            }
-
-            for (var index = 0; index < answerString.Length; index++)
-            {
-                if (tempAnswer.Contains(tempGuess[index]))
-                {
-                    minusCount++;
-                    var minusIndex = Array.IndexOf(tempAnswer, tempGuess[index]);
-                    tempAnswer[minusIndex] = '-';
-                    tempGuess[index] = 'a';
-                }
-            }
-
-            message.Append('+', plusCount);
-            message.Append('-', minusCount);
-
-            return new Response
-            {
-                ResponseCode = ResponseCode.GuessError,
-                ResponseMessage = message.ToString()
-            };
         }
 
         private void Restart()
