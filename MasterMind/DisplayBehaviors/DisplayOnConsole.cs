@@ -12,5 +12,14 @@ namespace MasterMind.DisplayBehaviors
         {
             Console.WriteLine(message);
         }
+
+        /// <summary>
+        /// Gets input from Console.
+        /// </summary>
+        /// <returns></returns>
+        public string GetInput()
+        {
+            return Console.ReadLine();
+        }
     }
 }

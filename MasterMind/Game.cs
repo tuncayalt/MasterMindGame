@@ -40,7 +40,7 @@ namespace MasterMind
                 try
                 {
                     _display.DisplayLine(string.Format(Messages.EnterNumber, attemptsLeft));
-                    var input = Console.ReadLine();
+                    var input = _display.GetInput();
 
                     input.InputNotNullOrWhiteSpace();
 
@@ -104,7 +104,7 @@ namespace MasterMind
 
         private void Restart()
         {
-            var restart = Console.ReadLine();
+            var restart = _display.GetInput();
             if (restart.Equals("Y", StringComparison.OrdinalIgnoreCase))
             {
                 Initialize();
